@@ -34,7 +34,7 @@ class zipio:
 		command="7z a -tzip -r \""+file+".zip\" \""+file+"\" -p"+password
 		clist.append(command)
 		#command="cd \""+here+"\"\n"
-		clist.append(command)
+	
 		clist.append("chcp 936")
 		import os
 		for c in clist:
@@ -54,7 +54,6 @@ class zipio:
 		command="7z a -tzip \""+target+"\" -p"+password+" \""+file+"\"\n"
 		clist.append(command)
 		#command="cd \""+here+"\"\n"
-		clist.append(command)
 		clist.append("chcp 936")
 		import os
 		for c in clist:
@@ -104,7 +103,7 @@ class hashio:
 		
 		res=des.encrypt(string)
 
-		return str(base64.b64encode(res))
+		return str(base64.b64encode(res).decode("utf-8"))
 	
 	#decode
 	def decodeStringhash(self,string,key,iv):
@@ -120,12 +119,12 @@ class hashio:
 	def genspcode(self,desres,key,iv,xxhashcode,releaser,time):
 		#may crash by string(TypeError)
 		import base64
-		chuck1=str(desres).replace("b'", "").replace("'", "")
+		chuck1=str(desres)
 		chuck2=key+"/!"+iv
 		chuck3=xxhashcode+"/!"+releaser+"/!"+time
 		
-		chuck2=str(base64.b64encode(chuck2.encode("utf-8"))).replace("b'", "").replace("'", "")
-		chuck3=str(base64.b64encode(chuck3.encode("utf-8"))).replace("b'", "").replace("'", "")
+		chuck2=str(base64.b64encode(chuck2.encode("utf-8")).decode('utf-8'))
+		chuck3=str(base64.b64encode(chuck3.encode("utf-8")).decode('utf-8'))
 		
 		code="saltzip://"+chuck1+"|"+chuck2+"|"+chuck3
 		return code
@@ -411,7 +410,7 @@ if __name__ == '__main__':
    /__/:/\:\     /  /:/\:\     /  /:/      \  \:\         \  \:\        \__\:\     /  /::\   
   _\_ \:\ \:\   /  /::\ \:\   /  /:/        \__\:\         \  \:\       /  /::\   /  /:/\:\  
  /__/\ \:\ \:\ /__/:/\:\_\:\ /__/:/         /  /::\   ______\__\:\   __/  /:/\/  /  /::\ \:\ 
- \  \:\ \:\_\/ \__\/  \:\/:/ \  \:\        /  /:/\:\ \  \::::::::/  /__/\/:/~~  /__/:/\:\_\:/
+ \  \:\ \:\_\/ \__\/  \:\/:/ \  \:\        /  /:/\:\ \  \::::::::/  /__/\/:/    /__/:/\:\_\:/
   \  \:\_\:\        \__\::/   \  \:\      /  /:/__\/  \  \:\~~~~~   \  \::/     \__\/  \:\/:/
    \  \:\/:/        /  /:/     \  \:\    /__/:/        \  \:\        \  \:\          \  \::/ 
     \  \::/        /__/:/       \  \:\   \__\/          \  \:\        \__\/           \__\/  
