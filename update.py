@@ -44,7 +44,12 @@ if chose == "y":
             print(Fore.LIGHTGREEN_EX+"请输入'Y'替换文件")
             system("7z x "+"\"./update/"+Fname+"\"")
             rmtree("update")
+            f=open('version.txt','w',encoding='utf-8')
+            f.write(t)
+            f.close()
             print(Fore.LIGHTGREEN_EX+"更新完毕")
+            system("pause")
+            exit()
 else:       
     print(Fore.RED+"已取消")
     system("pause")
