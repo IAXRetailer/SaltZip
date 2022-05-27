@@ -1,7 +1,7 @@
 from colorama import Fore,init
 from json import loads
 from requests import get
-from os import openpty, system,listdir,mkdir
+from os import system,listdir,mkdir
 from shutil import rmtree
 
 i=listdir()
