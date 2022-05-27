@@ -24,17 +24,11 @@ class zipio:
 	def enfoldzip(self,file,password):
 		here=tool().osgetlocation()
 		filename=file.split("\\")[-1]
-
 		clist=[]
 		command="chcp 65001\n"
 		clist.append(command)
-		#command="cd 7-Zip\n"
-		clist.append(command)
-		#7z.exe a -tzip -r myfile.zip test -p123
 		command="7z a -tzip -r \""+file+".zip\" \""+file+"\" -p"+password
 		clist.append(command)
-		#command="cd \""+here+"\"\n"
-	
 		clist.append("chcp 936")
 		import os
 		for c in clist:
@@ -43,13 +37,10 @@ class zipio:
 		return tpath
 	def enzip(self,file,password):
 		here=tool().osgetlocation()
-		#7z a -tzip archive.zip -pbuildforge 0076\
 		filename=file.split("\\")[-1]
 		target=filename+".zip"
 		clist=[]
 		command="chcp 65001\n"
-		clist.append(command)
-		#command="cd 7-Zip\n"
 		clist.append(command)
 		command="7z a -tzip \""+target+"\" -p"+password+" \""+file+"\"\n"
 		clist.append(command)
@@ -130,6 +121,12 @@ class hashio:
 		return code
 
 class tool:
+	def osrm(self,path):
+		from os import remove
+		remove(path)
+	def osrename(self,A,B):
+		from os import rename
+		rename(A,B)
 	def getfilesize(self,target):
 		import os
 		return os.path.getsize(target)
@@ -190,7 +187,7 @@ class tool:
 			f.write(msg)
 	
 	def mkfilerb(self,path,msg):
-		with open(path,"r") as f:
+		with open(path,"wb") as f:
 			f.write(msg)
 	
 	def checkfile(self,file):
@@ -230,22 +227,13 @@ class tool:
 	#generate an iv
 	def geniv(self,length):
 		return tool().ivconv(tool().genrds(length))
-'''	
-class imgio:
-	import cv2
-	#TODO generate a QRcode copy and parse it
-	#pip install opencv-python
-	def genqrc(self,msg):
-		return
-	#parse the image
-	def parseimg(self,imgfile):
-		imgobj=cv2.imread(imgfile)
-		parse=cv2.QRCodeDetector()
-		return parse.detectAndDecode(imgobj)[0]
-'''
+class NetIO:
+    def reachrb(self,url,proxy):
+        from requests import get
+        return get(url,proxy).content
 class modeio:
 	def chose(self,mode):
-		modelist=[0,1,2,3]
+		modelist=[0,1,2,3,4]
 		try:
 			int(mode)
 		except:
@@ -394,6 +382,21 @@ class modeio:
 			print(code)
 			hkname=filepath.replace(".zip",".hk")
 			tool().mkfile(hkname, code)
+		if int(mode) == 4:
+			port=open("update.txt","r",encoding="utf-8").read()
+			if port == "None":
+				proxies=None
+				print("检测到没有设置代理端口，可能导致失败，update.txt中填入[127.0.0.1:*本地代理端口*]即可启用代理")
+			else:
+				proxies = { "http": "http"+port, "https": "https"+port, } 
+				print("HTTP  Pick up "+proxies["http"])
+				print("HTTPS Pick up "+proxies["https"])
+			print("请等待下载。。。")
+			tool().mkfilerb("更新T.exe",NetIO().reachrb("https://github.com/IAXRetailer/SaltZip/raw/main/%E6%9B%B4%E6%96%B0.exe",proxies))
+			tool().osrm("更新.exe")
+			tool().osrename("更新T.exe","更新.exe")
+			print("更新完毕")
+			
 if __name__ == '__main__':
 	#object
 	#zipio=zipio()
@@ -420,7 +423,7 @@ if __name__ == '__main__':
 [1]Mode 1 压缩文件并加密生成秘钥
 [2]Mode 2 输入秘钥并解密解压文件
 [3]Mode 3 根据解压码生成秘钥分发
- 
+[4]Mode 4 更新[更新.exe]
 	'''
 	print(title)
 	import sys
