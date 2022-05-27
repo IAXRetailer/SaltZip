@@ -1,9 +1,30 @@
 from colorama import Fore,init
 from json import loads
 from requests import get
-from os import system,listdir,mkdir
+from os import openpty, system,listdir,mkdir
 from shutil import rmtree
 
+i=listdir()
+if "update.txt" not in i:
+    f=open("update.txt","w",encoding="utf-8")
+    f.write("None")
+    f.close()
+if "github.txt" not in i:
+    f=open("github.txt","w",encoding="utf-8")
+    f.write("https://api.github.com/repos/IAXRetailer/SaltZip/releases/latest")
+    f.close()
+if "version.txt" not in i:
+    f=open("version.txt","w",encoding="utf-8")
+    f.write("None")
+    f.close()
+if "7z.exe" not in i:
+    print("7z.exe丢失，程序无法运行")
+    system("pause")
+    exit()
+if "7z.dll" not in i:
+    print("7z.dll丢失，程序无法运行")
+    system("pause")
+    exit()
 init(autoreset=True)
 port=open("update.txt","r",encoding="utf-8").read()
 if port == "None":
@@ -41,7 +62,7 @@ if chose == "y":
                 mkdir("update")
             with open("./update/"+Fname,"wb") as f:
                 f.write(get(url,proxies=proxies).content)
-            print(Fore.LIGHTGREEN_EX+"请输入'Y'替换文件")
+            print(Fore.LIGHTGREEN_EX+"请输入'Y'替换文件，然后输入'A'默认选择'Y'")
             system("7z x "+"\"./update/"+Fname+"\"")
             rmtree("update")
             f=open('version.txt','w',encoding='utf-8')

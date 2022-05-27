@@ -393,7 +393,10 @@ class modeio:
 				print("HTTPS Pick up "+proxies["https"])
 			print("请等待下载。。。")
 			tool().mkfilerb("更新T.exe",NetIO().reachrb("https://github.com/IAXRetailer/SaltZip/raw/main/%E6%9B%B4%E6%96%B0.exe",proxies))
-			tool().osrm("更新.exe")
+			try:
+				tool().osrm("更新.exe")
+			except:
+				print("更新.exe不存在")
 			tool().osrename("更新T.exe","更新.exe")
 			print("更新完毕")
 			
