@@ -116,8 +116,14 @@ class hashio:
 		
 		chuck2=str(base64.b64encode(chuck2.encode("utf-8")).decode('utf-8'))
 		chuck3=str(base64.b64encode(chuck3.encode("utf-8")).decode('utf-8'))
-		
-		code="saltzip://"+chuck1+"|"+chuck2+"|"+chuck3
+		print("如果需要添加验证，请在此输入，请勿回车格式为[问题>>>答案]\n",end="")
+		chuck4=input()
+		if ">>>" not in chuck4:
+			chuck4="None"
+			enchuck4=str(base64.b64encode(chuck4.encode("utf-8")).decode('utf-8'))
+		else:
+			enchuck4=str(base64.b64encode(chuck4.encode("utf-8")).decode('utf-8'))
+		code="saltzip://"+chuck1+"|"+chuck2+"|"+chuck3+"|"+enchuck4
 		return code
 
 class tool:
@@ -281,10 +287,22 @@ class modeio:
 			chucklist=key.split("|")
 			#print(chucklist)
 			chuck1,chuck2,chuck3=chucklist[0],chucklist[1],chucklist[2]
+			chuck4=chucklist[3]
 			chuck1=chuck1.replace("saltzip://", "")
 			#print(chuck1,chuck2,chuck3)
-			import base64
 			#tool().ospause()
+			quelist=hashio().b64d(chuck4)
+			if quelist == "None":
+				pass
+			else:
+				quelist=quelist.split(">>>")
+				que=quelist[0]
+				pas=quelist[1]
+				print(que)
+				ans=input("输入答案\n")
+				while ans != pas:
+					print("不对不对，再想想？")
+					ans=input("\n")
 			tc2=hashio().b64d(chuck2)
 			tc3=hashio().b64d(chuck3)
 			#print(tc2,tc3)
