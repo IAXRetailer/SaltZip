@@ -1,4 +1,3 @@
-import sys
 import library.LiteLog as myLog
 import library.Core as myCore
 from prcon import *
@@ -12,5 +11,8 @@ while True:
         m0cres=myCore.Brain.chosemode(m0c,modelist)
     if m0cres == "EXIT":
         exit(0)
+    if m0c =="1":
+        myCore.Brain.choser.c1cer()
     if m0c =="2":
         myCore.Brain.choser.c2cer()
+        

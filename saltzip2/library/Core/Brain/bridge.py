@@ -1,4 +1,3 @@
-from operator import imod
 from library.LiteLog import logpr
 from library.Core.Brain import runner,choser
 
@@ -24,13 +23,9 @@ def c2c(mode,modelist):
     try:
         logpr.infolog(f"输入了{mode}",__name__)
         mode=int(mode)
-        if mode == 0:
-            return
-        if mode == 1:
-            return 1
-        if mode == 2:
-            return 2
-        if mode not in modelist:
+        if mode in modelist:
+            return mode
+        else:
             logpr.warnlog("不存在的模式",__name__)
             return False
     except:

@@ -14,6 +14,11 @@ def chosefile(obj):
 		root.withdraw()
 		Filepath = filedialog.askopenfilename(title="Select hash key", filetypes=(("Hash key", "*.hk"),)) #获得选择好的文件
 		return Filepath
+	if obj == "h2k":
+		root = tk.Tk()
+		root.withdraw()
+		Filepath = filedialog.askopenfilename(title="Select hash key", filetypes=(("Hash key 2", "*.h2k"),)) #获得选择好的文件
+		return Filepath
 	if obj == "zip":
 		root = tk.Tk()
 		root.withdraw()

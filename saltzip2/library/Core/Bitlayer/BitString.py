@@ -9,6 +9,7 @@ def writetobin(binPath,string):
         data=struct.pack(f"i",ord(i))
         with open(binPath, 'a+b') as f:
             f.write(data)
+
 def readrbtostring(filepath,lenstr):
     rbcon=open(filepath,"rb").read()
     data=str(lenstr)+"i"
