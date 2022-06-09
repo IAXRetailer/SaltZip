@@ -2,7 +2,7 @@ class zipio:
     	#unzip
 	def unzip(self,hkfilepath,password):
 		here=tool().osgetlocation()
-		target=hkfilepath.replace(".hk",".zip")
+		target=hkfilepath.replace(".hk",".sip")
 		#print(target)
 		#tool().ospause()
 		Alist=target.split("/")
@@ -27,18 +27,18 @@ class zipio:
 		clist=[]
 		command="chcp 65001\n"
 		clist.append(command)
-		command="7z a -tzip -r \""+file+".zip\" \""+file+"\" -p"+password
+		command="7z a -tzip -r \""+file+".sip\" \""+file+"\" -p"+password
 		clist.append(command)
 		clist.append("chcp 936")
 		import os
 		for c in clist:
 			os.system(c)
-		tpath=file+".zip"
+		tpath=file+".sip"
 		return tpath
 	def enzip(self,file,password):
 		here=tool().osgetlocation()
 		filename=file.split("\\")[-1]
-		target=filename+".zip"
+		target=filename+".sip"
 		clist=[]
 		command="chcp 65001\n"
 		clist.append(command)
@@ -116,14 +116,8 @@ class hashio:
 		
 		chuck2=str(base64.b64encode(chuck2.encode("utf-8")).decode('utf-8'))
 		chuck3=str(base64.b64encode(chuck3.encode("utf-8")).decode('utf-8'))
-		print("如果需要添加验证，请在此输入，请勿回车格式为[问题>>>答案]\n",end="")
-		chuck4=input()
-		if ">>>" not in chuck4:
-			chuck4="None"
-			enchuck4=str(base64.b64encode(chuck4.encode("utf-8")).decode('utf-8'))
-		else:
-			enchuck4=str(base64.b64encode(chuck4.encode("utf-8")).decode('utf-8'))
-		code="saltzip://"+chuck1+"|"+chuck2+"|"+chuck3+"|"+enchuck4
+		
+		code="saltzip://"+chuck1+"|"+chuck2+"|"+chuck3
 		return code
 
 class tool:
@@ -164,7 +158,7 @@ class tool:
 		if obj == "zip":
 			root = tk.Tk()
 			root.withdraw()
-			Filepath = filedialog.askopenfilename(title="Select hash key", filetypes=(("File(zip)", "*.zip"),)) #获得选择好的文件
+			Filepath = filedialog.askopenfilename(title="Select hash key", filetypes=(("File(zip)", "*.sip"),)) #获得选择好的文件
 			return Filepath
 	def ospopen(self,command):
 		import os
@@ -287,22 +281,10 @@ class modeio:
 			chucklist=key.split("|")
 			#print(chucklist)
 			chuck1,chuck2,chuck3=chucklist[0],chucklist[1],chucklist[2]
-			chuck4=chucklist[3]
 			chuck1=chuck1.replace("saltzip://", "")
 			#print(chuck1,chuck2,chuck3)
+			import base64
 			#tool().ospause()
-			quelist=hashio().b64d(chuck4)
-			if quelist == "None":
-				pass
-			else:
-				quelist=quelist.split(">>>")
-				que=quelist[0]
-				pas=quelist[1]
-				print(que)
-				ans=input("输入答案\n")
-				while ans != pas:
-					print("不对不对，再想想？")
-					ans=input("\n")
 			tc2=hashio().b64d(chuck2)
 			tc3=hashio().b64d(chuck3)
 			#print(tc2,tc3)
@@ -324,7 +306,7 @@ class modeio:
 			print("3秒后开始解压")
 			time.sleep(3)
 			#print(tc2)
-			target=filepath.replace(".hk",".zip")
+			target=filepath.replace(".hk",".sip")
 			key=tc2.split("/!")[0]
 			iv=tc2.split("/!")[1]
 			print(key,iv)
@@ -398,7 +380,7 @@ class modeio:
 			time = date.strftime("%Y-%m-%d")
 			code=hashio().genspcode(descode, key, iv, xxhash, releaser, time)
 			print(code)
-			hkname=filepath.replace(".zip",".hk")
+			hkname=filepath.replace(".sip",".hk")
 			tool().mkfile(hkname, code)
 		if int(mode) == 4:
 			port=open("update.txt","r",encoding="utf-8").read()
@@ -411,10 +393,7 @@ class modeio:
 				print("HTTPS Pick up "+proxies["https"])
 			print("请等待下载。。。")
 			tool().mkfilerb("更新T.exe",NetIO().reachrb("https://github.com/IAXRetailer/SaltZip/raw/main/%E6%9B%B4%E6%96%B0.exe",proxies))
-			try:
-				tool().osrm("更新.exe")
-			except:
-				print("更新.exe不存在")
+			tool().osrm("更新.exe")
 			tool().osrename("更新T.exe","更新.exe")
 			print("更新完毕")
 			
