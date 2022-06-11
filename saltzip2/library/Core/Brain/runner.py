@@ -17,7 +17,7 @@ def enfile(filepath):
     commandList.append("7z a -tzip \""+outpath+"\" -p"+password+" \""+filepath+"\"\n")
     systemwheel.systemrunner(commandList)
     if setting["GENxxhash"] == "True":
-        xxhash=Ixxhash.getfilehash(outpath,655650,getsize(outpath))
+        xxhash=Ixxhash.getfilehash(outpath,65565,getsize(outpath))
         logpr.infolog("XXHASH值为"+xxhash,__name__)
     else:
         xxhash="0000000000000000"
@@ -28,6 +28,8 @@ def enfile(filepath):
     writecon=enpassword+key+xxhash+iv#16 8 16 8
     logpr.infolog(enpassword,__name__)
     WTN=logpr.colorinput("签名：",logpr.Fore.LIGHTYELLOW_EX)
+    if WTN == "":
+        WTN="NONE"
     DATE=Itime.getdate()
     hkpath=filepath+"."+str(len(WTN))+".h2k"
     writecon=writecon+WTN+DATE
@@ -44,7 +46,7 @@ def enfolder(filepath):
     commandList.append("7z a -tzip -r \""+outpath+"\" -p"+password+" \""+filepath+"\"\n")
     systemwheel.systemrunner(commandList)
     if setting["GENxxhash"] == "True":
-        xxhash=Ixxhash.getfilehash(outpath,655650,getsize(outpath))
+        xxhash=Ixxhash.getfilehash(outpath,65565,getsize(outpath))
         logpr.infolog("XXHASH值为"+xxhash,__name__)
     else:
         xxhash="0000000000000000"
@@ -100,7 +102,7 @@ def unsip(filepath,mode):
         commandlist=[]
         commandlist.append("7z x \""+unfilepath+"\" -o\""+dictory+"\" -p"+password)
         if setting["VERxxhash"] =="True":
-            if Ixxhash.getfilehash(unfilepath) != xxhash and xxhash != "0000000000000000":
+            if Ixxhash.getfilehash(unfilepath,65565,getsize(unfilepath)) != xxhash and xxhash != "0000000000000000":
                 logpr.warnlog("XXHASH不同，文件可能损坏，是否继续",__name__)
                 input()
         else:
@@ -125,7 +127,8 @@ def unsip(filepath,mode):
         commandlist=[]
         commandlist.append("7z x \""+unfilepath+"\" -o\""+dictory+"\" -p"+password)
         if setting["VERxxhash"] =="True":
-            if Ixxhash.getfilehash(unfilepath) != xxhash and xxhash != "0000000000000000":
+            selfhash=Ixxhash.getfilehash(unfilepath,65565,getsize(unfilepath))
+            if selfhash != xxhash and xxhash != "0000000000000000":
                 logpr.warnlog("XXHASH不同，文件可能损坏，是否继续",__name__)
                 input()
         else:
