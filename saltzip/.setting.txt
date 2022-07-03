@@ -1,0 +1,10 @@
+#Check the xxhash
+#True or False
+CK_XXHASH=True
+#
+#
+#
+#Gen a xxhash
+#True or False
+#If 'False' , it will set to '000000000000'
+GEN_XXHASH=True
